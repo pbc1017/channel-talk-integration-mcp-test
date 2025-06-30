@@ -55,15 +55,15 @@ export function Dashboard() {
                 <div className="space-y-2 text-left">
                   <div className="flex justify-between">
                     <span className="text-gray-600">이름:</span>
-                    <span className="font-medium">{user.name}</span>
+                    <span className="font-medium text-black">{user.name}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">이메일:</span>
-                    <span className="font-medium">{user.email}</span>
+                    <span className="font-medium text-black">{user.email}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">가입일:</span>
-                    <span className="font-medium">
+                    <span className="font-medium text-black">
                       {new Date(user.createdAt).toLocaleDateString('ko-KR')}
                     </span>
                   </div>
