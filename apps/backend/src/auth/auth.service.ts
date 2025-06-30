@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
-import { AuthResponse, JwtPayload } from '@shared/types/auth';
+import { AuthResponse } from '@shared/types/auth';
 
 @Injectable()
 export class AuthService {
@@ -30,11 +30,9 @@ export class AuthService {
   }
 
   async login(user: User): Promise<AuthResponse> {
-    const payload: JwtPayload = {
+    const payload = {
       sub: user.id,
       email: user.email,
-      iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 3600, // 1시간
     };
 
     const accessToken = this.jwtService.sign(payload);
