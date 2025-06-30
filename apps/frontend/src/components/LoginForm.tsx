@@ -21,6 +21,12 @@ export function LoginForm() {
 
     try {
       await login(email, password);
+
+      // 로그인 성공 이벤트 트래킹
+      if (typeof window !== 'undefined' && window.ChannelIO) {
+        window.ChannelIO('track', 'UserLogin', { userId: email });
+      }
+
       router.push('/');
     } catch (err: any) {
       setError(err.response?.data?.message || '로그인에 실패했습니다.');

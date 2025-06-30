@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ChannelTalkModule } from './channel-talk/channel-talk.module';
 import { AppController } from './app.controller';
 import { User } from './users/entities/user.entity';
 
@@ -20,6 +21,7 @@ import { User } from './users/entities/user.entity';
     }),
     AuthModule,
     UsersModule,
+    ChannelTalkModule,
   ],
   controllers: [AppController],
 })

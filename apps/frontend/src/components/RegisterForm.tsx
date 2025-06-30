@@ -44,6 +44,14 @@ export function RegisterForm() {
 
     try {
       await register(formData.email, formData.password, formData.name);
+
+      // 회원가입 성공 이벤트 트래킹
+      if (typeof window !== 'undefined' && window.ChannelIO) {
+        window.ChannelIO('track', 'UserRegistration', {
+          userId: formData.email,
+        });
+      }
+
       router.push('/');
     } catch (err: any) {
       setError(err.response?.data?.message || '회원가입에 실패했습니다.');
