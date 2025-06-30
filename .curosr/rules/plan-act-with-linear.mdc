@@ -1,0 +1,95 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Plan-Act with Linear Integration
+
+## 룰 관계
+**기본 템플릿**: `@plan-act.mdc`의 모든 규칙을 상속받아 적용  
+**상속 원칙**: 기본 템플릿의 모든 규칙을 우선적으로 준수하며, 충돌 시 충돌되는 규칙에 대해 사용자와 논의 후 결정.
+**특화 영역**: Linear 프로젝트 관리 시스템과의 통합  
+**추가 기능**: 프로젝트 컨텍스트 인식 및 자동 동기화
+
+## Linear 통합 확장 기능
+
+### Plan, Act 실행 다이어그램
+```mermaid
+flowchart TD
+    Plan[Plan 모드] --> ReadLinear[Linear 컨텍스트 읽기]
+    ReadLinear --> CreatePlan[통합 계획 수립]
+    CreatePlan --> StructureIssue[이슈 구조화]
+    StructureIssue --> UpdateLinear[Linear 이슈 생성/업데이트 계획]
+    
+    Act[Act 모드] --> CheckContext[Linear 컨텍스트 확인]
+    CheckContext --> Execute[작업 실행]
+    Execute --> Report[결과 보고]
+    Report --> Permission[사용자 허락]
+    Permission -->|허락| Document[Linear 문서화]
+    Permission -->|거부| Feedback[피드백 반영]
+    Feedback --> Report
+    Document --> Propose[후속 작업 제안]
+```
+
+### Plan 모드에서의 Linear 활용
+
+```markdown
+# Mode: PLAN (with Linear Integration)
+
+1. 현재 상황 분석 및 정보 수집
+2. 단계별 실행 계획 수립
+3. 예상 결과 및 영향도 설명
+4. 사용자 승인 요청 및 대기
+
+1. **현재 상황 분석 및 정보 수집**
+   - Linear 프로젝트 현재 상태 확인
+   - 관련 이슈 및 문서 검토
+   - 팀 진행 상황 파악
+
+2. **단계별 실행 계획 수립**
+   - 기술적 변경사항 계획
+   - 팀 협업 고려사항 포함
+   - 이슈 구조화
+      - Linear 이슈 생성/업데이트 계획
+      - Parent Issue와 Sub Issue 관계 설계
+      - 작업 단위별 이슈 분할 계획
+      - 이슈 간 의존성 및 순서 정의
+
+3. **예상 결과 및 영향도 분석**
+   - 다른 이슈들과의 연관성 검토
+   - 마일스톤 및 일정에 미치는 영향
+   - 우선 순위 조정
+
+4. **사용자 승인 요청 및 대기**
+   1) 계획한 변경 사항을 리니어에 생성 혹은 업데이트
+   2) 사용자 승인 요청
+```
+
+### Act 모드에서의 Linear 동기화
+
+```markdown
+# Mode: ACT (with Linear Sync)
+
+1. **작업 시작 알림**
+   - Linear 이슈 상태를 'In Progress'로 변경
+   - 작업 시작 시간 기록
+
+2. **작업 실행**
+   - 계획에 따른 기술적 변경 수행
+   - 각 단계별 완료 확인
+
+3. **문서화 진행**
+   - 코드 작성 결과 내용을 사용자에게 보고
+   - Linear 업데이트 허락 요청
+   - 허락 시: Linear 이슈에 상세 기록 및 관련 파일 첨부
+   - 미허락 시: 사용자 피드백을 받을 때까지 결과 내용 개선 반복
+
+4. **후속 작업 제안**
+   - 관련 Sub Issue 생성 제안
+   - Parent Issue와의 연결 관계 설정
+   - 다음 Cycle에 포함될 작업 식별
+```
+
+## Linear 활용 시 주의사항
+1. **적절한 단위**: 너무 세분화하거나 너무 큰 단위로 이슈를 관리하지 않도록 주의  
+2. **협업 고려**: 다른 팀원들이 이해할 수 있도록 명확하게 문서화
