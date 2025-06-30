@@ -44,4 +44,10 @@ export class AuthController {
       },
     };
   }
+
+  @Post('member-hash')
+  @UseGuards(JwtAuthGuard)
+  async getMemberHash(@Request() req) {
+    return this.authService.generateMemberHash(req.user.id);
+  }
 }

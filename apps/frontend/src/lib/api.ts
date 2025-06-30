@@ -48,6 +48,11 @@ export const authApi = {
     return response.data;
   },
 
+  getMemberHash: async (): Promise<{ memberHash: string }> => {
+    const response = await api.post('/auth/member-hash');
+    return response.data;
+  },
+
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
