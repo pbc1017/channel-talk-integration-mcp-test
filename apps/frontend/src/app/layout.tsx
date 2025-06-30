@@ -16,6 +16,30 @@ const ErrorBoundary = dynamic(
   }
 );
 
+// ChannelTalkProvider를 클라이언트에서만 렌더링
+const ChannelTalkProvider = dynamic(
+  () =>
+    import('@/components/ChannelTalkProvider').then((mod) => ({
+      default: mod.ChannelTalkProvider,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+
+// ChannelTalkPageTracker를 클라이언트에서만 렌더링
+const ChannelTalkPageTracker = dynamic(
+  () =>
+    import('@/components/ChannelTalkPageTracker').then((mod) => ({
+      default: mod.ChannelTalkPageTracker,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -32,6 +56,8 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <AuthProvider>
+          <ChannelTalkProvider />
+          <ChannelTalkPageTracker />
           <ErrorBoundary>{children}</ErrorBoundary>
         </AuthProvider>
       </body>

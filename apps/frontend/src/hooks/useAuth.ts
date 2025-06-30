@@ -81,6 +81,11 @@ export const useAuthProvider = () => {
   const logout = () => {
     authApi.logout();
     setUser(null);
+
+    // 로그아웃 이벤트 트래킹
+    if (typeof window !== 'undefined' && window.ChannelIO) {
+      window.ChannelIO('track', 'UserLogout');
+    }
   };
 
   return {
