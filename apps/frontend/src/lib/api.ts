@@ -61,4 +61,16 @@ export const healthApi = {
   },
 };
 
+export const channelTalkApi = {
+  getMemberHash: async (memberId: string): Promise<{ memberHash: string }> => {
+    const response = await api.post('/channel-talk/member-hash', { memberId });
+    return response.data;
+  },
+
+  validateConfig: async (): Promise<{ isValid: boolean; message: string }> => {
+    const response = await api.get('/channel-talk/validate-config');
+    return response.data;
+  },
+};
+
 export default api;

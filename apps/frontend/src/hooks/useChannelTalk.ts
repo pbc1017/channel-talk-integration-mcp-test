@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import * as ChannelService from '@channel.io/channel-web-sdk-loader';
 import { User } from '@shared/types/auth';
+import { channelTalkApi } from '@/lib/api';
 
 const PLUGIN_KEY = 'f78d4acf-4252-4b88-9958-996dff57b95a';
 
@@ -12,41 +13,68 @@ interface UseChannelTalkProps {
 }
 
 export const useChannelTalk = ({ user, loading }: UseChannelTalkProps) => {
+  const [isChannelTalkReady, setIsChannelTalkReady] = useState(false);
+
   // 채널톡 스크립트 로드
   useEffect(() => {
     ChannelService.loadScript();
+    setIsChannelTalkReady(true);
   }, []);
 
-  // 채널톡 부트
-  const bootChannelTalk = useCallback((userData: User | null) => {
+  // 보안이 강화된 채널톡 부트 (멤버 해시 사용)
+  const bootChannelTalkSecure = useCallback(async (userData: User | null) => {
     if (userData) {
-      // 로그인된 사용자 - 멤버 유저로 부트
-      ChannelService.boot({
-        pluginKey: PLUGIN_KEY,
-        memberId: userData.id,
-        profile: {
-          name: userData.name,
-          email: userData.email,
-        },
-      });
+      try {
+        // 서버에서 멤버 해시 요청
+        const { memberHash } = await channelTalkApi.getMemberHash(userData.id);
+
+        // 멤버 해시와 함께 부트
+        ChannelService.boot({
+          pluginKey: PLUGIN_KEY,
+          memberId: userData.id,
+          memberHash: memberHash,
+          profile: {
+            name: userData.name,
+            email: userData.email,
+          },
+        });
+
+        console.log(
+          '✅ Channel Talk booted with member hash for user:',
+          userData.id
+        );
+      } catch (error) {
+        console.error(
+          '❌ Failed to boot Channel Talk with member hash:',
+          error
+        );
+
+        // 멤버 해시 생성 실패 시 익명 유저로 폴백
+        console.warn('⚠️ Falling back to anonymous user mode');
+        ChannelService.boot({
+          pluginKey: PLUGIN_KEY,
+        });
+      }
     } else {
       // 로그아웃된 사용자 - 익명 유저로 부트
       ChannelService.boot({
         pluginKey: PLUGIN_KEY,
       });
+
+      console.log('✅ Channel Talk booted as anonymous user');
     }
   }, []);
 
   // 사용자 상태 변경 시 채널톡 재시작
   useEffect(() => {
-    if (loading) return; // 로딩 중일 때는 아무것도 하지 않음
+    if (loading || !isChannelTalkReady) return; // 로딩 중이거나 채널톡이 준비되지 않았을 때는 아무것도 하지 않음
 
     // 기존 채널톡 세션 종료
     ChannelService.shutdown();
 
     // 새로운 상태로 부트
-    bootChannelTalk(user);
-  }, [user, loading, bootChannelTalk]);
+    bootChannelTalkSecure(user);
+  }, [user, loading, isChannelTalkReady, bootChannelTalkSecure]);
 
   // 채널톡 제어 함수들
   const showChannelButton = useCallback(() => {
@@ -75,5 +103,6 @@ export const useChannelTalk = ({ user, loading }: UseChannelTalkProps) => {
     hideChannelButton,
     track,
     setPage,
+    isChannelTalkReady,
   };
 };
