@@ -4,7 +4,7 @@
   "description": "pnpm monorepo with Next.js + Nest.js",
   "private": true,
   "scripts": {
-    "dev": "pnpm -r dev",
+    "dev": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,yellow\" \"pnpm -C apps/frontend dev\" \"pnpm -C apps/backend dev\"",
     "start": "pnpm -r start",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
