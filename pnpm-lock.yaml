@@ -150,12 +150,6 @@ importers:
       '@monorepo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@stagewise-plugins/react':
-        specifier: ^0.4.9
-        version: 0.4.9(@stagewise/toolbar@0.4.9)
-      '@stagewise/toolbar':
-        specifier: ^0.4.9
-        version: 0.4.9
       axios:
         specifier: ^1.5.0
         version: 1.10.0
@@ -1404,18 +1398,6 @@ packages:
 
   /@sqltools/formatter@1.2.5:
     resolution: {integrity: sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==}
-    dev: false
-
-  /@stagewise-plugins/react@0.4.9(@stagewise/toolbar@0.4.9):
-    resolution: {integrity: sha512-njlmHe92sAAvEGPeeyZS+a+twuVBNNaEmjFuUGs02WWnG20HquoXMHRgdUFH5Ecr0cxHS2SP/AbKq/kYEFwMjA==}
-    peerDependencies:
-      '@stagewise/toolbar': 0.4.9
-    dependencies:
-      '@stagewise/toolbar': 0.4.9
-    dev: false
-
-  /@stagewise/toolbar@0.4.9:
-    resolution: {integrity: sha512-fBggX+4nLwRDHnevWk32BjpMpc6vjF2k9mdamsPqAUnbsKbJnkTCjm0o8DOKcjRO9M/PGwcED4Ct0AWHQvkR/Q==}
     dev: false
 
   /@swc/helpers@0.5.2:

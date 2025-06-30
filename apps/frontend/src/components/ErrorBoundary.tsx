@@ -26,7 +26,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.warn('Stagewise Error Boundary caught an error:', error, errorInfo);
+    console.warn('Error Boundary caught an error:', error, errorInfo);
   }
 
   render() {

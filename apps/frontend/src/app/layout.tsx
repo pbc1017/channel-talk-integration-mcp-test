@@ -4,15 +4,6 @@ import './globals.css';
 import { AuthProvider } from '@/components/AuthProvider';
 import dynamic from 'next/dynamic';
 
-// StagewiseProvider를 클라이언트에서만 렌더링
-const StagewiseProvider = dynamic(
-  () => import('@/components/StagewiseProvider'),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
-
 // ErrorBoundary를 클라이언트에서만 렌더링
 const ErrorBoundary = dynamic(
   () =>
@@ -40,10 +31,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
-        <ErrorBoundary>
-          <StagewiseProvider />
-        </ErrorBoundary>
+        <AuthProvider>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </AuthProvider>
       </body>
     </html>
   );
